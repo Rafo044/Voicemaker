@@ -3,6 +3,12 @@ import os
 import sys
 from pathlib import Path
 
+# GitHub Secret-lərdən gələn təsadüfi yeni sətirləri (\n) təmizləyirik (strip)
+if "MODAL_TOKEN_ID" in os.environ:
+    os.environ["MODAL_TOKEN_ID"] = os.environ["MODAL_TOKEN_ID"].strip()
+if "MODAL_TOKEN_SECRET" in os.environ:
+    os.environ["MODAL_TOKEN_SECRET"] = os.environ["MODAL_TOKEN_SECRET"].strip()
+
 def run_modal_task(file_path):
     print(f"🚀 Processing {file_path} on Modal...")
     
