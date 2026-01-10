@@ -8,7 +8,7 @@ def run_modal_task(file_path):
     
     # Modal-da yerləşən funksiyanı tapırıq
     try:
-        f = modal.Function.lookup("cognicentric-audio", "generate_f5_audio")
+        f = modal.Function.from_name("cognicentric-audio", "generate_f5_audio")
     except Exception as e:
         print(f"❌ Connection error: {e}")
         sys.exit(1)
