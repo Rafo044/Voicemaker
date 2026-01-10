@@ -1,1 +1,1 @@
-Test session four. Switching to temporary file storage for audio buffers. Bulud sistemi, indi cavab ver.
+Final calibration test - Verified. Backend is now using local disk storage for audio processing. Cloud engine, ready for final test.
