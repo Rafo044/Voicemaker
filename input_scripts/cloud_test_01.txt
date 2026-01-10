@@ -1,1 +1,1 @@
-This is a second test of the cloud engine. Everything should be working now with the new trigger script.
+This is a third test of the cloud engine. If you see this, the trigger script is working perfectly. Testing the final bridge between GitHub and Modal.
