@@ -1,0 +1,6 @@
+.env
+__pycache__/
+*.wav
+*.mp3
+*.flac
+!clone_source/universal_clon.mp3
