@@ -1,1 +1,1 @@
-The final bridge is complete. Voice is generated, and the gateway for the file transfer is now open. Cloud engine, bring it home.
+Granting write permissions to the automation bot. Final gate should open now. Re-testing the cloud audio flow.
