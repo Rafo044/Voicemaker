@@ -13,7 +13,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
-          fetch-depth: 2 # Dəyişiklikləri görmək üçün
+          fetch-depth: 2
 
       - name: Set up Python
         uses: actions/setup-python@v4
@@ -38,38 +38,7 @@ jobs:
           fi
 
           for file in $changed_files; do
-            echo "Processing $file..."
-            # Modal-ı çağıran kiçik bir python skripti işlədirik
-            python -c "
-import modal
-import os
-from pathlib import Path
-
-# Modal app-ı qoşuruq
-f = modal.Function.lookup('cognicentric-audio', 'generate_f5_audio')
-
-script_file = Path('$file')
-ref_audio = Path('clone_source/universal_clon.mp3')
-
-if not ref_audio.exists():
-    print('Ref audio not found')
-    exit(1)
-
-text = script_file.read_text(encoding='utf-8')
-with open(ref_audio, 'rb') as audio_f:
-    audio_bytes = audio_f.read()
-
-print(f'Sending {script_file.name} to Modal...')
-result_bytes = f.remote(text, audio_bytes)
-
-# Nəticəni yadda saxla
-output_path = Path('output_voiceovers') / (script_file.stem + '.wav')
-output_path.parent.mkdir(exist_ok=True)
-with open(output_path, 'wb') as out_f:
-    out_f.write(result_bytes)
-
-print(f'Saved to {output_path}')
-            "
+            python trigger_modal.py "$file"
           done
 
       - name: Commit and Push output
@@ -79,5 +48,5 @@ print(f'Saved to {output_path}')
           git config --global user.name "GitHub Action"
           git config --global user.email "action@github.com"
           git add output_voiceovers/*.wav
-          git commit -m "Auto-generated voiceover from Modal" || echo "No changes to commit"
+          git commit -m "Auto-generated voiceover from Modal [skip ci]" || echo "No changes to commit"
           git push
