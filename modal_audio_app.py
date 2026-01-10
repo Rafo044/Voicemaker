@@ -69,10 +69,12 @@ def generate_f5_audio(text: str, ref_audio_bytes: bytes, ref_text: str = "Experi
 
     final_audio = torch.cat(all_wavs, dim=-1)
     
-    # Nəticəni bayt olaraq qaytaraq
-    buffer = io.BytesIO()
-    torchaudio.save(buffer, final_audio, sr, format="wav")
-    return buffer.getvalue()
+    # Nəticəni müvəqqəti fayla yazıb sonra bayt kimi qaytarırıq (BytesIO xətasından qaçmaq üçün)
+    temp_output = "temp_output.wav"
+    torchaudio.save(temp_output, final_audio, sr)
+    
+    with open(temp_output, "rb") as f:
+        return f.read()
 
 @app.local_entrypoint()
 def main():
