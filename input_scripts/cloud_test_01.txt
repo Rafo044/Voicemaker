@@ -1,1 +1,1 @@
-Final calibration test. Stripping whitespace from tokens. Cloud engine, do you copy?
+Test session four. Switching to temporary file storage for audio buffers. Bulud sistemi, indi cavab ver.
