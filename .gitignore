@@ -1,6 +1,9 @@
 .env
 __pycache__/
+# Bütün səs fayllarını görməzdən gəl...
 *.wav
 *.mp3
 *.flac
+# ...AMMA bu iki yerə icazə ver:
 !clone_source/universal_clon.mp3
+!output_voiceovers/*.wav
