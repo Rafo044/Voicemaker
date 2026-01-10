@@ -41,6 +41,13 @@ def run_modal_task(file_path):
 
     print(f"✅ Saved to {output_path}")
 
+    # Faylı arxivlə (Processed scripts qovluğuna köçür)
+    proc_dir = Path("processed_scripts")
+    proc_dir.mkdir(exist_ok=True)
+    import shutil
+    shutil.move(str(script_file), str(proc_dir / script_file.name))
+    print(f"📦 Archived {script_file.name} to processed_scripts/")
+
 if __name__ == "__main__":
     if len(sys.argv) < 2:
         print("Usage: python trigger_modal.py <script_file>")

@@ -31,15 +31,15 @@ jobs:
           MODAL_TOKEN_SECRET: ${{ secrets.TOKEN_SECRET }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          # Dəyişən faylları tap
-          changed_files=$(git diff --name-only HEAD^ HEAD | grep 'input_scripts/.*\.txt$' || true)
+          # Bütün yeni skriptləri tap
+          files=$(ls input_scripts/*.txt 2>/dev/null || true)
           
-          if [ -z "$changed_files" ]; then
-            echo "No new scripts found."
+          if [ -z "$files" ]; then
+            echo "No scripts to process."
             exit 0
           fi
 
-          for file in $changed_files; do
+          for file in $files; do
             python trigger_modal.py "$file"
           done
 
@@ -50,5 +50,6 @@ jobs:
           git config --global user.name "GitHub Action"
           git config --global user.email "action@github.com"
           git add output_voiceovers/*.wav
-          git commit -m "Auto-generated voiceover from Modal [skip ci]" || echo "No changes to commit"
+          git add processed_scripts/*.txt
+          git commit -m "Auto-generated voiceover and archived script [skip ci]" || echo "No changes to commit"
           git push
