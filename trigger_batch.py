@@ -13,9 +13,8 @@ if "MODAL_TOKEN_SECRET" in os.environ:
     os.environ["MODAL_TOKEN_SECRET"] = os.environ["MODAL_TOKEN_SECRET"].strip()
 
 def send_to_n8n(project_name, file_links):
-    # 'cognitcentric' -> 'cognicentric' olaraq düzəldildi
-    # n8n-də workflow aktivdirsə 'webhook' (production) istifadə olunmalıdır, amma sən 'webhook-test' verdiyin üçün onu saxlayıram.
-    webhook_url = "https://n8n.alikhanli.site/webhook-test/cognicentric/audio"
+    # n8n screenshot-una əsasən 'cognitcentric' (t ilə) geri qaytarıldı
+    webhook_url = "https://n8n.alikhanli.site/webhook-test/cognitcentric/audio"
     auth = ("voice", "voice123")
     payload = {
         "project_name": project_name,
@@ -25,7 +24,7 @@ def send_to_n8n(project_name, file_links):
         response = requests.post(webhook_url, json=payload, auth=auth)
         if response.status_code == 404:
             # Əgər test URL tapılmazsa, production URL-i yoxlayaq
-            prod_url = "https://n8n.alikhanli.site/webhook/cognicentric/audio"
+            prod_url = "https://n8n.alikhanli.site/webhook/cognitcentric/audio"
             response = requests.post(prod_url, json=payload, auth=auth)
         
         print(f"📡 Webhook sent! Status: {response.status_code}")
