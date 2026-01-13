@@ -1,17 +1,13 @@
 {
-    "project_name": "final_verification",
+    "project_name": "no_auth_test",
     "scenes": [
         {
             "id": "01",
-            "text": "Initiating final verification for the batch processing system."
+            "text": "This is a test without authentication."
         },
         {
             "id": "02",
-            "text": "The webhook URL has been restored to cognitcentric with the letter t."
-        },
-        {
-            "id": "03",
-            "text": "This third scene confirms that parallel processing is handling multiple requests efficiently."
+            "text": "Checking if n8n receives the link list correctly now."
         }
     ]
 }
