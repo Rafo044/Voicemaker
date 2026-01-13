@@ -1,9 +1,13 @@
 {
-    "project_name": "test_activation",
+    "project_name": "retest_parallel",
     "scenes": [
         {
             "id": "01",
-            "text": "Testing the automated batch system activation. This should trigger the GitHub Action."
+            "text": "First scene of the parallel test."
+        },
+        {
+            "id": "02",
+            "text": "Second scene of the parallel test. Both should generate at the same time."
         }
     ]
 }
