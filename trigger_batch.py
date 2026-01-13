@@ -2,7 +2,6 @@ import modal
 import os
 import sys
 import json
-import requests
 from pathlib import Path
 from concurrent.futures import ThreadPoolExecutor
 
@@ -11,24 +10,6 @@ if "MODAL_TOKEN_ID" in os.environ:
     os.environ["MODAL_TOKEN_ID"] = os.environ["MODAL_TOKEN_ID"].strip()
 if "MODAL_TOKEN_SECRET" in os.environ:
     os.environ["MODAL_TOKEN_SECRET"] = os.environ["MODAL_TOKEN_SECRET"].strip()
-
-def send_to_n8n(project_name, file_links):
-    # Authentication silindi (USER tələbi ilə)
-    webhook_url = "https://n8n.alikhanli.site/webhook-test/cognitcentric/audio"
-    payload = {
-        "project_name": project_name,
-        "links": file_links
-    }
-    try:
-        response = requests.post(webhook_url, json=payload)
-        if response.status_code == 404:
-            # Əgər test URL tapılmazsa, production URL-i yoxlayaq
-            prod_url = "https://n8n.alikhanli.site/webhook/cognitcentric/audio"
-            response = requests.post(prod_url, json=payload)
-        
-        print(f"📡 Webhook sent! Status: {response.status_code}")
-    except Exception as e:
-        print(f"⚠️ Webhook error: {e}")
 
 def process_batch(json_path):
     print(f"🚀 Processing batch: {json_path}")
@@ -66,7 +47,6 @@ def process_batch(json_path):
         text = scene.get("text", "")
         print(f"🎙️ Generating scene {scene_id}...")
         
-        # Modal-a göndər
         result_bytes = f_modal.remote(text, audio_bytes)
         
         file_name = f"{scene_id}.wav"
@@ -76,27 +56,12 @@ def process_batch(json_path):
         
         return file_name
 
-    # Paralel emal (ThreadPoolExecutor modal .remote-ları eyni anda çağırır)
     print(f"⚡ Starting parallel processing for {len(scenes)} scenes...")
     with ThreadPoolExecutor(max_workers=10) as executor:
-        results = list(executor.map(process_single_scene, scenes))
+        list(executor.map(process_single_scene, scenes))
 
-    # Linkləri hazırla (GitHub Raw linklərini təxmin edirik)
-    repo = os.environ.get("GITHUB_REPOSITORY", "Rafo044/Voicemaker")
-    branch = "main" # və ya master
-    base_url = f"https://raw.githubusercontent.com/{repo}/{branch}/batch_output/{project_name}/"
-    
-    file_links = [f"{base_url}{name}" for name in results]
-
-    # n8n-ə göndər
-    send_to_n8n(project_name, file_links)
-
-    # Arxivlə
-    proc_dir = Path("batch_processed")
-    proc_dir.mkdir(exist_ok=True)
-    import shutil
-    shutil.move(json_path, str(proc_dir / Path(json_path).name))
-    print(f"✅ Batch completed and archived.")
+    # Arxivlə (skript sonrakı mərhələdə linkləri tapsın deyə JSON-u hələ silmirik, workflow-da yerini dəyişəcəyik)
+    print(f"✅ Batch audio generation completed for {project_name}.")
 
 if __name__ == "__main__":
     if len(sys.argv) < 2:

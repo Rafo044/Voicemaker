@@ -7,3 +7,4 @@ __pycache__/
 # ...AMMA bu iki yerə icazə ver:
 !clone_source/universal_clon.mp3
 !output_voiceovers/*.wav
+!batch_output/**/*.wav

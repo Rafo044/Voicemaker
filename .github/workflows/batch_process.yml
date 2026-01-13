@@ -15,7 +15,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
-          fetch-depth: 2
+          fetch-depth: 0
 
       - name: Set up Python
         uses: actions/setup-python@v4
@@ -25,30 +25,46 @@ jobs:
       - name: Install Dependencies
         run: pip install modal requests
 
-      - name: Run Batch Modal Job
+      - name: 🎙️ Generate Audio (Modal)
         env:
           MODAL_TOKEN_ID: ${{ secrets.TOKEN_ID }}
           MODAL_TOKEN_SECRET: ${{ secrets.TOKEN_SECRET }}
-          GITHUB_REPOSITORY: ${{ github.repository }}
         run: |
           files=$(ls batch_inputs/*.json 2>/dev/null || true)
-          
-          if [ -z "$files" ]; then
-            echo "No batch JSON files to process."
-            exit 0
-          fi
-
           for file in $files; do
             python trigger_batch.py "$file"
           done
 
-      - name: Commit and Push output
+      - name: 🚀 Commit and Push Audio
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           git config --global user.name "GitHub Action"
           git config --global user.email "action@github.com"
           git add batch_output/*
-          git add batch_processed/*.json
           git commit -m "Generated batch voiceovers [skip ci]" || echo "No changes to commit"
-          git push
+          git push origin main
+
+      - name: 📡 Send Webhook (n8n)
+        env:
+          GITHUB_REPOSITORY: ${{ github.repository }}
+        run: |
+          # Push-dan sonra artıq fayllar real olaraq repodadır
+          files=$(ls batch_inputs/*.json 2>/dev/null || true)
+          for file in $files; do
+            python send_webhook.py "$file"
+          done
+
+      - name: 📦 Archive JSON files
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          mkdir -p batch_processed
+          files=$(ls batch_inputs/*.json 2>/dev/null || true)
+          if [ ! -z "$files" ]; then
+            mv batch_inputs/*.json batch_processed/
+            git add batch_processed/*.json
+            git add batch_inputs/
+            git commit -m "Archived processed batch JSONs [skip ci]" || echo "No changes to commit"
+            git push origin main
+          fi
