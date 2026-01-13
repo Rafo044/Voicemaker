@@ -1,13 +1,17 @@
 {
-    "project_name": "retest_parallel",
+    "project_name": "final_verification",
     "scenes": [
         {
             "id": "01",
-            "text": "First scene of the parallel test."
+            "text": "Initiating final verification for the batch processing system."
         },
         {
             "id": "02",
-            "text": "Second scene of the parallel test. Both should generate at the same time."
+            "text": "The webhook URL has been restored to cognitcentric with the letter t."
+        },
+        {
+            "id": "03",
+            "text": "This third scene confirms that parallel processing is handling multiple requests efficiently."
         }
     ]
 }
