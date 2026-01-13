@@ -1,0 +1,13 @@
+{
+  "project_name": "example_project",
+  "scenes": [
+    {
+      "id": "01",
+      "text": "This is the first scene of our batch project."
+    },
+    {
+      "id": "02",
+      "text": "And this is the second scene, being processed in parallel."
+    }
+  ]
+}
