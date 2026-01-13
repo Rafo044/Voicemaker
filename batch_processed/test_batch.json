@@ -1,13 +1,17 @@
 {
-    "project_name": "no_auth_test",
+    "project_name": "multi_scene_verification",
     "scenes": [
         {
             "id": "01",
-            "text": "This is a test without authentication."
+            "text": "First scene: Let's see how our parallel processing handles multiple files."
         },
         {
             "id": "02",
-            "text": "Checking if n8n receives the link list correctly now."
+            "text": "Second scene: This one is running at the same time as scene one and three."
+        },
+        {
+            "id": "03",
+            "text": "Third scene: Final verification of the fixed gitignore and the new workflow order."
         }
     ]
 }
