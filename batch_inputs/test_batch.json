@@ -1,0 +1,9 @@
+{
+    "project_name": "test_activation",
+    "scenes": [
+        {
+            "id": "01",
+            "text": "Testing the automated batch system activation. This should trigger the GitHub Action."
+        }
+    ]
+}
