@@ -1,1 +1,0 @@
-Granting write permissions to the automation bot. Final gate should open now. Re-testing the cloud audio flow.
